@@ -8,7 +8,6 @@ const tokenizerAttributes = {
 const summaryAttributes = {
   'summary.discountLabel': 'discountLabel',
   'summary.productLabel': 'productLabel',
-  'summary.maxInstallments': 'installments',
   'summary.discount': 'discount',
   'summary.shipping': 'shipping',
   'summary.amount': 'totalAmount',
@@ -21,6 +20,11 @@ const summaryAttributes = {
 const themeAttributes = {
   'theme.header': 'headerColor',
   'theme.elements': 'elementsColor',
+};
+
+const installmentsAttributes = {
+  'installments.minInstallments': 'minInstallments',
+  'installments.maxInstallments': 'maxInstallments',
 };
 
 export const getHtmlCode = ({ publicKey, ...props }: any) => ({
@@ -44,6 +48,15 @@ export const getHtmlCode = ({ publicKey, ...props }: any) => ({
                     : acum,
                 ''
               )}
+              installments: {
+                ${Object.entries(installmentsAttributes).reduce(
+                  (acum, [key, value]) =>
+                    get(props, key)
+                      ? acum + ` ${value}:"${get(props, key)}", `
+                      : acum,
+                  ''
+                )}
+              },
               summary: {
                 ${Object.entries(summaryAttributes).reduce(
                   (acum, [key, value]) =>
