@@ -36,7 +36,7 @@ export const getHtmlCode = ({ publicKey, ...props }: any) => ({
       <body>
         <script src="https://sdk.mercadopago.com/js/v2"></script>
         <script>
-          const mp = new MercadoPago(${publicKey}, {locale: 'es-AR'});
+          const mp = new MercadoPago('${publicKey}', {locale: 'es-AR'});
 
           mp.checkout({
             tokenizer: {
