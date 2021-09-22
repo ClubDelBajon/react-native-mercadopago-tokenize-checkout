@@ -1,30 +1,30 @@
 import get from 'lodash.get';
 
-const tokenizerAttributes = {
-  amount: 'totalAmount',
-  action: 'backUrl',
-};
+// const tokenizerAttributes = {
+//   amount: 'totalAmount',
+//   action: 'backUrl',
+// };
 
-const summaryAttributes = {
-  'summary.discountLabel': 'discountLabel',
-  'summary.productLabel': 'productLabel',
-  'summary.maxInstallments': 'installments',
-  'summary.discount': 'discount',
-  'summary.shipping': 'shipping',
-  'summary.amount': 'totalAmount',
-  'summary.action': 'backUrl',
-  'summary.arrears': 'arrears',
-  'summary.charge': 'charge',
-  'summary.taxes': 'taxes',
-  // 'customerId': 'data-customer-id',
-  // 'publicKey': 'data-public-key',
-  // 'cardsIds': 'data-card-ids',
-};
+// const summaryAttributes = {
+//   'summary.discountLabel': 'discountLabel',
+//   'summary.productLabel': 'productLabel',
+//   'summary.maxInstallments': 'installments',
+//   'summary.discount': 'discount',
+//   'summary.shipping': 'shipping',
+//   'summary.amount': 'totalAmount',
+//   'summary.action': 'backUrl',
+//   'summary.arrears': 'arrears',
+//   'summary.charge': 'charge',
+//   'summary.taxes': 'taxes',
+//   // 'customerId': 'data-customer-id',
+//   // 'publicKey': 'data-public-key',
+//   // 'cardsIds': 'data-card-ids',
+// };
 
-const themeAttributes = {
-  'theme.header': 'headerColor',
-  'theme.elements': 'elementsColor',
-};
+// const themeAttributes = {
+//   'theme.header': 'headerColor',
+//   'theme.elements': 'elementsColor',
+// };
 
 export const getHtmlCode = ({ publicKey, ...props }: any) => ({
   html: `
