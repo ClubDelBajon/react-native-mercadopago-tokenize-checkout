@@ -1,24 +1,32 @@
 import get from 'lodash.get';
 
-const dataAttributes = {
-  'discountLabel': 'data-summary-discount-label',
-  'productLabel': 'data-summary-product-label',
-  'maxInstallments': 'data-max-installments',
-  'theme.elements': 'data-elements-color',
-  'theme.header': 'data-header-color',
-  'discount': 'data-summary-discount',
-  'shipping': 'data-summary-shipping',
-  'amount': 'data-transaction-amount',
-  'arrears': 'data-summary-arrears',
-  'customerId': 'data-customer-id',
-  'charge': 'data-summary-charge',
-  'publicKey': 'data-public-key',
-  'taxes': 'data-summary-taxes',
-  'cardsIds': 'data-card-ids',
-  'keepOpen': 'data-open',
+const tokenizerAttributes = {
+  amount: 'totalAmount',
+  action: 'backUrl',
 };
 
-export const getHtmlCode = ({ action, ...props }: any) => ({
+const summaryAttributes = {
+  'summary.discountLabel': 'discountLabel',
+  'summary.productLabel': 'productLabel',
+  'summary.maxInstallments': 'installments',
+  'summary.discount': 'discount',
+  'summary.shipping': 'shipping',
+  'summary.amount': 'totalAmount',
+  'summary.action': 'backUrl',
+  'summary.arrears': 'arrears',
+  'summary.charge': 'charge',
+  'summary.taxes': 'taxes',
+  // 'customerId': 'data-customer-id',
+  // 'publicKey': 'data-public-key',
+  // 'cardsIds': 'data-card-ids',
+};
+
+const themeAttributes = {
+  'theme.header': 'headerColor',
+  'theme.elements': 'elementsColor',
+};
+
+export const getHtmlCode = ({ publicKey, ...props }: any) => ({
   html: `
     <!doctype html>
     <html>
@@ -26,19 +34,42 @@ export const getHtmlCode = ({ action, ...props }: any) => ({
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
       </head>
       <body>
-        <form action="${action}" method="POST">
-          <script
-            src="https://www.mercadopago.com.ar/integrations/v1/web-tokenize-checkout.js"
-            ${Object.entries(dataAttributes).reduce(
-              (acum, [key, value]) =>
-                get(props, key)
-                  ? acum + ` ${value}="${get(props, key)}" `
-                  : acum,
-              ''
-            )}
-          >
-          </script>
-        </form>
+        <script src="https://sdk.mercadopago.com/js/v2"></script>
+        <script>
+          const mp = new MercadoPago(${publicKey}, {locale: 'es-AR'});
+
+          mp.checkout({
+            tokenizer: {
+              ${Object.entries(tokenizerAttributes).reduce(
+                (acum, [key, value]) =>
+                  get(props, key)
+                    ? acum + ` ${value}:"${get(props, key)}", `
+                    : acum,
+                ''
+              )}
+              summary: {
+                ${Object.entries(summaryAttributes).reduce(
+                  (acum, [key, value]) =>
+                    get(props, key)
+                      ? acum + ` ${value}:"${get(props, key)}", `
+                      : acum,
+                  ''
+                )}
+              },
+            },
+            theme: {
+              ${Object.entries(themeAttributes).reduce(
+                (acum, [key, value]) =>
+                  get(props, key)
+                    ? acum + ` ${value}:"${get(props, key)}", `
+                    : acum,
+                ''
+              )}
+            },
+            autoOpen: true,
+          });
+        </script>
+
         <style>
           body {
             background: ${props.theme?.elements};
@@ -49,7 +80,8 @@ export const getHtmlCode = ({ action, ...props }: any) => ({
           }
         </style>
         <script>
-          document.querySelector(".mercadopago-button").click();
+          //document.querySelector(".mercadopago-button").click();
+          checkout.open();
         </script>
       </body>
     </html>
