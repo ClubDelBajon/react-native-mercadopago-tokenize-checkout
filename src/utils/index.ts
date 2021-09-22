@@ -43,6 +43,7 @@ export const getHtmlCode = ({ publicKey, ...props }: any) => ({
               totalAmount: 4000,
               backUrl: 'https://www.mi-sitio.com/procesar-pago',
             },
+            autoOpen: true,
           });
         </script>
 
@@ -55,9 +56,6 @@ export const getHtmlCode = ({ publicKey, ...props }: any) => ({
             visibility: hidden;
           }
         </style>
-        <script>
-          document.querySelector(".mercadopago-button").click();
-        </script>
       </body>
     </html>
   `,
