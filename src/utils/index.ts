@@ -1,30 +1,27 @@
-// import get from 'lodash.get';
+import get from 'lodash.get';
 
-// const tokenizerAttributes = {
-//   amount: 'totalAmount',
-//   action: 'backUrl',
-// };
+const tokenizerAttributes = {
+  amount: 'totalAmount',
+  action: 'backUrl',
+};
 
-// const summaryAttributes = {
-//   'summary.discountLabel': 'discountLabel',
-//   'summary.productLabel': 'productLabel',
-//   'summary.maxInstallments': 'installments',
-//   'summary.discount': 'discount',
-//   'summary.shipping': 'shipping',
-//   'summary.amount': 'totalAmount',
-//   'summary.action': 'backUrl',
-//   'summary.arrears': 'arrears',
-//   'summary.charge': 'charge',
-//   'summary.taxes': 'taxes',
-//   // 'customerId': 'data-customer-id',
-//   // 'publicKey': 'data-public-key',
-//   // 'cardsIds': 'data-card-ids',
-// };
+const summaryAttributes = {
+  'summary.discountLabel': 'discountLabel',
+  'summary.productLabel': 'productLabel',
+  'summary.maxInstallments': 'installments',
+  'summary.discount': 'discount',
+  'summary.shipping': 'shipping',
+  'summary.amount': 'totalAmount',
+  'summary.action': 'backUrl',
+  'summary.arrears': 'arrears',
+  'summary.charge': 'charge',
+  'summary.taxes': 'taxes',
+};
 
-// const themeAttributes = {
-//   'theme.header': 'headerColor',
-//   'theme.elements': 'elementsColor',
-// };
+const themeAttributes = {
+  'theme.header': 'headerColor',
+  'theme.elements': 'elementsColor',
+};
 
 export const getHtmlCode = ({ publicKey, ...props }: any) => ({
   html: `
@@ -40,8 +37,31 @@ export const getHtmlCode = ({ publicKey, ...props }: any) => ({
 
           mp.checkout({
             tokenizer: {
-              totalAmount: 4000,
-              backUrl: 'https://www.mi-sitio.com/procesar-pago',
+              ${Object.entries(tokenizerAttributes).reduce(
+                (acum, [key, value]) =>
+                  get(props, key)
+                    ? acum + ` ${value}:"${get(props, key)}", `
+                    : acum,
+                ''
+              )}
+              summary: {
+                ${Object.entries(summaryAttributes).reduce(
+                  (acum, [key, value]) =>
+                    get(props, key)
+                      ? acum + ` ${value}:"${get(props, key)}", `
+                      : acum,
+                  ''
+                )}
+              },
+            },
+            theme: {
+              ${Object.entries(themeAttributes).reduce(
+                (acum, [key, value]) =>
+                  get(props, key)
+                    ? acum + ` ${value}:"${get(props, key)}", `
+                    : acum,
+                ''
+              )}
             },
             autoOpen: true,
           });
@@ -50,10 +70,6 @@ export const getHtmlCode = ({ publicKey, ...props }: any) => ({
         <style>
           body {
             background: ${props.theme?.elements};
-          }
-
-          button.mercadopago-button {
-            visibility: hidden;
           }
         </style>
       </body>
