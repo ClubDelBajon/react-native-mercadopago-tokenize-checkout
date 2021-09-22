@@ -36,66 +36,13 @@ export const getHtmlCode = ({ publicKey, ...props }: any) => ({
       <body>
         <script src="https://sdk.mercadopago.com/js/v2"></script>
         <script>
-          console.log('** ENTRA SCRIPT', ${publicKey});
           const mp = new MercadoPago(${publicKey}, {locale: 'es-AR'});
-          console.log('** MP', mp);
-
-          const tokenizer = ${Object.entries(tokenizerAttributes).reduce(
-            (acum, [key, value]) =>
-              get(props, key)
-                ? acum + ` ${value}:"${get(props, key)}", `
-                : acum,
-            ''
-          )};
-          console.log('** tokenizer', tokenizer);
-
-          const summary = ${Object.entries(summaryAttributes).reduce(
-            (acum, [key, value]) =>
-              get(props, key)
-                ? acum + ` ${value}:"${get(props, key)}", `
-                : acum,
-            ''
-          )};
-          console.log('** summary', summary);
-
-          const theme = ${Object.entries(themeAttributes).reduce(
-            (acum, [key, value]) =>
-              get(props, key)
-                ? acum + ` ${value}:"${get(props, key)}", `
-                : acum,
-            ''
-          )};
-          console.log('** theme', theme);
 
           mp.checkout({
             tokenizer: {
-              ${Object.entries(tokenizerAttributes).reduce(
-                (acum, [key, value]) =>
-                  get(props, key)
-                    ? acum + ` ${value}:"${get(props, key)}", `
-                    : acum,
-                ''
-              )}
-              summary: {
-                ${Object.entries(summaryAttributes).reduce(
-                  (acum, [key, value]) =>
-                    get(props, key)
-                      ? acum + ` ${value}:"${get(props, key)}", `
-                      : acum,
-                  ''
-                )}
-              },
+              totalAmount: 4000,
+              backUrl: 'https://www.mi-sitio.com/procesar-pago',
             },
-            theme: {
-              ${Object.entries(themeAttributes).reduce(
-                (acum, [key, value]) =>
-                  get(props, key)
-                    ? acum + ` ${value}:"${get(props, key)}", `
-                    : acum,
-                ''
-              )}
-            },
-            autoOpen: true,
           });
         </script>
 
@@ -109,8 +56,7 @@ export const getHtmlCode = ({ publicKey, ...props }: any) => ({
           }
         </style>
         <script>
-          //document.querySelector(".mercadopago-button").click();
-          checkout.open();
+          document.querySelector(".mercadopago-button").click();
         </script>
       </body>
     </html>
