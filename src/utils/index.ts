@@ -36,7 +36,36 @@ export const getHtmlCode = ({ publicKey, ...props }: any) => ({
       <body>
         <script src="https://sdk.mercadopago.com/js/v2"></script>
         <script>
+          console.log('** ENTRA SCRIPT', ${publicKey});
           const mp = new MercadoPago(${publicKey}, {locale: 'es-AR'});
+          console.log('** MP', mp);
+
+          const tokenizer = ${Object.entries(tokenizerAttributes).reduce(
+            (acum, [key, value]) =>
+              get(props, key)
+                ? acum + ` ${value}:"${get(props, key)}", `
+                : acum,
+            ''
+          )};
+          console.log('** tokenizer', tokenizer);
+
+          const summary = ${Object.entries(summaryAttributes).reduce(
+            (acum, [key, value]) =>
+              get(props, key)
+                ? acum + ` ${value}:"${get(props, key)}", `
+                : acum,
+            ''
+          )};
+          console.log('** summary', summary);
+
+          const theme = ${Object.entries(themeAttributes).reduce(
+            (acum, [key, value]) =>
+              get(props, key)
+                ? acum + ` ${value}:"${get(props, key)}", `
+                : acum,
+            ''
+          )};
+          console.log('** theme', theme);
 
           mp.checkout({
             tokenizer: {
